@@ -3,8 +3,92 @@
 
 using namespace std;
 
+/*
+	1. ¬озможность создани€ от класса std::string
+
+	2. ќператоры к реализации: == (оператор пр€мого сравнивани€. ѕровер€ет по данным, а не по существу. - что одна хранима€ строчка внутри - одна и таже.),
+	+= (+ и = напр€мую не св€заны и их поведение нужно вписывать вручную),
+	! (должен прин€ть строку и сказать что она не 1-ца. ћы знаем что срока пуста€, но данные могут быть заполнены)
+
+	3. ƒоступ к отдельным символам строки (перегрузка [], () )
+		std::string str{"qwerty"};
+		str[2]; // [] - пр€мой доступ. 
+		str.at(2); // - пр€мой доступ, контролирует границы типа. »сключени€ генерируютс€
+	оба метода принимают целое число, в каком месте нужно достучатьс€ до данных.
+
+	4. ѕредоставл€ть доступ к сырым данным
+*/
+
+	
+
 class String {
 public:
+
+	// «адача 1
+	String (std::string str1) {
+		// узнать сколько символов в str
+
+		capacity = str1.size ();
+		size = std::size (str1);
+
+		// выделить под них пам€ть
+		data = new char[size] {};
+
+		// скопировать данные из str
+		::memcpy (data, &(str1[0]), size);
+		
+		// не забыть про остальные пол€
+
+	}
+
+	// «адача 2
+	bool operator ==(const String && other) {
+		if (this->size != other.size) return false;
+		for (int i = 0; i < this->size; i++)
+		{
+			if (this->data[i] != other.data[i]) return false;
+		}
+		return true;
+	};
+
+	friend bool operator +=(String a, String b) {
+		//if (capacity >= ::strlen(str)) {
+		//	for (int i = 0; i < size; i++) {
+		//		data[i] = '\0';
+		//	}
+		//}
+		//else
+		//{
+		//	if (data) {
+		//		delete[] data;
+		//	}
+		//	data = new char[::strlen (str) + 1];
+		//	capacity = ::strlen (str) + 1;
+		//}
+		//size = ::strlen (str);
+		//::memcpy (data, str, size);
+		//// процесс копировани€
+		//return *this;
+
+	};
+
+	friend bool operator !=(String a, String b) {
+		
+	};
+	//friend bool operator !(String a); - описание, как привести к логике.
+
+	// «адача 3
+
+	//friend operator (bool) (String str); - описание, как привести к логике.
+
+	char &operator[](int i) {
+
+	};
+
+	const char & operator[](int i) const {
+	};
+	
+
 	String ()
 		// ƒелигаци€. Ѕыстрее, чем data = nullptr, size = 0, capacity = 0. »спользуетс€, когда нужно большие типы данных.
 		:data (nullptr),
